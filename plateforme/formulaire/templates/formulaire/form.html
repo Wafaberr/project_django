@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche d'Activité Professionnelle</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .required-field::after {
+            content: " *";
+            color: #dc3545;
+        }
+
+        .form-section {
+            border-left: 4px solid #0d6efd;
+            padding-left: 15px;
+            margin-bottom: 25px;
+        }
+
+        .form-check-inline {
+            margin-right: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="text-center mb-0">Fiche d'activité professionnelle</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <p class="text-muted mb-4">
+                            <small>Tous les champs marqués d'une astérisque (*) sont obligatoires</small>
+                        </p>
+
+                        <form method="post" novalidate>
+                            {% csrf_token %}
+
+                            <div class="row">
+                                <!-- Colonne gauche -->
+                                <div class="col-md-6">
+                                    <!-- 01 — Code d'activité -->
+                                    <div class="form-section mb-4">
+                                        <label for="{{ form.code_activite.id_for_label }}"
+                                            class="form-label required-field">
+                                             Code d'activité
+                                        </label>
+                                        {{ form.code_activite }}
+                                        {% if form.code_activite.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ form.code_activite.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- 03 — Domaine -->
+                                    <div class="form-section mb-4">
+                                        <label for="{{ form.domaine.id_for_label }}" class="form-label required-field">
+                                            Domaine
+                                        </label>
+                                        {{ form.domaine }}
+                                        {% if form.domaine.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ form.domaine.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- 05 — Nom de l'activité -->
+                                    <div class="form-section mb-4">
+                                        <label for="{{ form.nom_activite.id_for_label }}"
+                                            class="form-label required-field">
+                                            Nom de l'activité
+                                        </label>
+                                        {{ form.nom_activite }}
+                                        {% if form.nom_activite.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ form.nom_activite.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- 09 — Secteurs concernés -->
+                                    <div class="form-section mb-4">
+                                        <label class="form-label required-field">
+                                             Secteurs concernés
+                                        </label>
+                                        <div class="border rounded p-3">
+                                            {% for checkbox in form.secteurs %}
+                                            <div class="form-check">
+                                                {{ checkbox.tag }}
+                                                <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                                                    {{ checkbox.choice_label |cut:"*"}}
+                                                </label>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                        {% if form.secteurs.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ form.secteurs.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- 11 — Mode de prestation -->
+                                    <div class="form-section mb-4">
+                                        <label for="{{ form.mode_prestation.id_for_label }}"
+                                            class="form-label required-field">
+                                            Mode de prestation de service
+                                        </label>
+                                        {{ form.mode_prestation }}
+                                        {% if form.mode_prestation.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ form.mode_prestation.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <!-- Colonne droite -->
+                                <div class="col-md-6">
+                                    <!-- 02 — Date d'introduction -->
+                                    <div class="form-section mb-4">
+                                        <label for="{{ form.date_introduction.id_for_label }}"
+                                            class="form-label required-field">
+                                             Date d'introduction de l'activité
+                                        </label>
+                                        {{ form.date_introduction }}
+                                        {% if form.date_introduction.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ form.date_introduction.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- 04 — Sous-domaine -->
+                                    <div class="form-section mb-4">
+                                        <label for="{{ form.sous_domaine.id_for_label }}" class="form-label">
+                                             Sous-domaine
+                                        </label>
+                                        {{ form.sous_domaine }}
+                                        {% if form.sous_domaine.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ form.sous_domaine.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                
+                                    <!-- 10 — Publics cibles -->
+                                    <div class="form-section mb-4">
+                                        <label class="form-label required-field">
+                                            <strong> Publics cibles</strong>
+                                        </label>
+                                        <div class="form-text mb-3">Sélectionnez vos clients types</div>
+
+                                        <div class="row">
+                                            {% for checkbox in form.publics_cibles %}
+                                            <div class="col-md-6">
+                                                <div class="form-check mb-2">
+                                                    {{ checkbox.tag }}
+                                                    <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                                                        {{ checkbox.choice_label }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+
+                                        {% if form.publics_cibles.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ form.publics_cibles.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+
+                                    <!-- 14 — Capacité handicap -->
+                                    <div class="form-section mb-4">
+                                        <label class="form-label required-field">
+                                            <strong>Capacité des personnes en situation de handicap</strong>
+                                        </label>
+                                        <div class="form-text mb-3">Accessibilité de votre activité</div>
+
+                                        {% for radio in form.capacite_handicap %}
+                                        <div class="form-check mb-2">
+                                            {{ radio.tag }}
+                                            <label class="form-check-label" for="{{ radio.id_for_label  }}">
+                                                {{ radio.choice_label| cut:"*" }}
+                                            </label>
+                                        </div>
+                                        {% endfor %}
+
+                                        {% if form.capacite_handicap.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ form.capacite_handicap.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Champs textarea sur toute la largeur -->
+
+                            <!-- 06 — Description succincte -->
+                            <div class="form-section mb-4">
+                                <label for="{{ form.description.id_for_label }}" class="form-label required-field">
+                                     Description succincte
+                                </label>
+                                {{ form.description }}
+                                {% if form.description.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ form.description.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- 07 — Objectifs -->
+                            <div class="form-section mb-4">
+                                <label for="{{ form.objectifs.id_for_label }}" class="form-label required-field">
+                                     Objectifs (tâches et missions)
+                                </label>
+                                {{ form.objectifs }}
+                                {% if form.objectifs.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ form.objectifs.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- 08 — Compétences requises -->
+                            <div class="form-section mb-4">
+                                <label for="{{ form.competences.id_for_label }}" class="form-label required-field">
+                                    Compétences requises
+                                </label>
+                                {{ form.competences }}
+                                {% if form.competences.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ form.competences.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- 12 — Ressources et outils -->
+                            <div class="form-section mb-4">
+                                <label for="{{ form.ressources.id_for_label }}" class="form-label">
+                                     Ressources et outils nécessaires
+                                </label>
+                                {{ form.ressources }}
+                                {% if form.ressources.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ form.ressources.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- 13 — Activités similaires -->
+                            <div class="form-section mb-4">
+                                <label for="{{ form.activites_similaires.id_for_label }}" class="form-label">
+                                     Activités similaires ou complémentaires
+                                </label>
+                                {{ form.activites_similaires }}
+                                {% if form.activites_similaires.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ form.activites_similaires.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- 15 — Remarques -->
+                            <div class="form-section mb-4">
+                                <label for="{{ form.remarques.id_for_label }}" class="form-label">
+                                     Remarques supplémentaires
+                                </label>
+                                {{ form.remarques }}
+                                {% if form.remarques.errors %}
+                                <div class="alert alert-danger mt-2">
+                                    {{ form.remarques.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Boutons d'action -->
+                            <div class="d-flex justify-content-between mt-5 pt-4 border-top">
+                                <button type="reset" class="btn btn-outline-secondary">
+                                    Réinitialiser le formulaire
+                                </button>
+                                <div>
+                                    <a href="#" class="btn btn-outline-primary me-2">
+                                        Sauvegarder comme brouillon
+                                    </a>
+                                    <button type="submit" class="btn btn-primary btn-lg px-5">
+                                        <i class="bi bi-check-circle me-2"></i>
+                                        Enregistrer la fiche
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Messages d'information -->
+                <div class="alert alert-info mt-4">
+                    <h5><i class="bi bi-info-circle"></i> Informations importantes</h5>
+                    <ul class="mb-0">
+                        <li>Cette fiche sera utilisée pour votre déclaration d'activité</li>
+                        <li>Les données sont conservées conformément au RGPD</li>
+                        <li>Vous pourrez modifier cette fiche ultérieurement</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <!-- Scripts Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script de validation côté client optionnel -->
+    <script>
+        // Validation des champs requis
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function (event) {
+                let isValid = true;
+                const requiredFields = form.querySelectorAll('.required-field');
+
+                requiredFields.forEach(function (label) {
+                    const inputId = label.getAttribute('for');
+                    const input = document.getElementById(inputId);
+
+                    if (input && !input.value.trim()) {
+                        isValid = false;
+                        input.classList.add('is-invalid');
+
+                        // Créer un message d'erreur
+                        if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('invalid-feedback')) {
+                            const errorDiv = document.createElement('div');
+                            errorDiv.className = 'invalid-feedback';
+                            errorDiv.textContent = 'Ce champ est obligatoire';
+                            input.parentNode.appendChild(errorDiv);
+                        }
+                    } else if (input) {
+                        input.classList.remove('is-invalid');
+                        input.classList.add('is-valid');
+                    }
+                });
+
+                if (!isValid) {
+                    event.preventDefault();
+                    alert('Veuillez remplir tous les champs obligatoires');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
