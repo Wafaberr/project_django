@@ -4,3 +4,17 @@
     padding: 10px;
     border-radius: 5px;
 }
+.required-field::after {
+            content: " *";
+            color: #dc3545;
+        }
+
+        .form-section {
+            border-left: 4px solid #0d6efd;
+            padding-left: 15px;
+            margin-bottom: 25px;
+        }
+
+        .form-check-inline {
+            margin-right: 20px;
+        }
