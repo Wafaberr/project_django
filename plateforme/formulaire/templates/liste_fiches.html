@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Listes fiches
+{% endblock %}
+
+{% block content %}
+    <section>
+    <h1>fiches</h1>
+    
+    <!-- Bouton pour créer une nouvelle fiche -->
+    <a href="{% url 'formulaire:formulaire' %}" class="btn btn-primary mb-3">
+        Créer un nouveau formulaire
+    </a>
+
+    <table class="fiches-table table table-striped">
+        <thead class="thead-dark" style="background-color: #343a40; color: white;">
+            <tr>
+                <th>Code activité</th>
+                <th>Domaine</th>
+                <th>Sous-domaine</th>
+                <th>Actions</th>  <!-- Nouvelle colonne pour les actions -->
+            </tr>
+        </thead>
+        <tbody style="background-color: #f8f9fa;">
+            {% for fiche in fiches %}
+                <tr>
+                    <td>{{ fiche.code_activite }}</td>
+                    <td>{{ fiche.domaine }}</td>
+                    <td>{{ fiche.sous_domaine }}</td>
+                    <td>
+                        <!-- Bouton d'édition pour chaque ligne -->
+                        <a href="{% url 'formulaire:formulaire'  %}" 
+                           class="btn btn-sm btn-warning">
+                            ✏️ Éditer
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </section>
+{% endblock %}

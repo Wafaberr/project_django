@@ -11,7 +11,7 @@ class AutoEntrepreneurForm(forms.Form):
     code_activite = forms.CharField(
         label=mark_safe('<strong>01 — Code d\'activité</strong>'),
         max_length=6,
-        required=True,
+        required=False,
         validators=[
             MinLengthValidator(6, "Le code doit contenir au moins 6 caractères"),
             RegexValidator(
@@ -67,7 +67,7 @@ class AutoEntrepreneurForm(forms.Form):
     nom_activite = forms.CharField(
         label=mark_safe('<strong>05 — Nom de l\'activité</strong>'),
         max_length=150,
-        required=True,
+        required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Ex: Création de sites internet'
@@ -269,7 +269,7 @@ class AutoEntrepreneurForm(forms.Form):
 
     # Configuration des erreurs
     error_messages = {
-        'required': 'Ce champ est obligatoire',
+        
         'invalid': 'Veuillez saisir une valeur valide',
         'max_length': 'La valeur est trop longue (maximum %(limit_value)d caractères)',
     }
@@ -277,11 +277,6 @@ class AutoEntrepreneurForm(forms.Form):
     def __init__(self, *args, **kwargs):
         """Initialisation avec personnalisations supplémentaires"""
         super().__init__(*args, **kwargs)
-        
-        # Ajouter des classes CSS aux champs requis
-        for field_name, field in self.fields.items():
-            if field.required:
-                field.widget.attrs['class'] = field.widget.attrs.get('class', '') 
         
         # Personnalisation spécifique
         self.fields['description'].widget.attrs['data-counter'] = '500'

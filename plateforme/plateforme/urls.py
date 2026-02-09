@@ -21,4 +21,5 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('formulaire.urls')),
+    path('utilisateurs/', include('utilisateurs.urls')),  # Ajoutez un namespace ici
 ]

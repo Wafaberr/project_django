@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block title %}
+        Django App
+      {% endblock %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script src="{% static 'js/main.js' %}" defer></script>
+  </head>
+  <body>
+    <div class="logo_section">
+      <div class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Logo de la plateforme" />
+      </div>
+    </div>
+    <div class="header_section">
+      <div class="content">
+        <input type="text" placeholder="Rechercher..." />
+        <button type="submit">🔍</button>
+      </div>
+    </div>
+    <main>
+      {% block content %}
+
+      {% endblock %}
+    </main>
+  </body>
+</html>

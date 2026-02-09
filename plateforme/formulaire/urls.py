@@ -2,8 +2,10 @@
 from django.urls import path
 from formulaire import views  # ou from . import views
 
+app_name = 'formulaire'  # Ajoutez un namespace pour éviter les conflits de noms
+
 urlpatterns = [
-    path('', views.formulaire_view, name='formulaire'),  # NOM : 'formulaire'
-    path('confirmation/', views.confirmation, name='confirmation'),
+    path('editer_fiche/', views.formulaire_view, name='formulaire'),  # NOM : 'formulaire'
+    path('', views.liste_fiches, name='liste_fiches'), 
    
 ]
