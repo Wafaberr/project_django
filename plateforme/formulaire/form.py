@@ -2,10 +2,9 @@ from django import forms
 from django.core.validators import RegexValidator, MinLengthValidator
 from django.utils.safestring import mark_safe
 
+
+
 class AutoEntrepreneurForm(forms.Form):
-    """
-    Formulaire pour la fiche d'activité d'auto-entrepreneur
-    """
     
     # 01 — Code d'activité
     code_activite = forms.CharField(
@@ -30,6 +29,7 @@ class AutoEntrepreneurForm(forms.Form):
 
     # 02 — Date d'introduction
     date_introduction = forms.DateField(
+        required=False,
         label=mark_safe('<strong>02 — Date d\'introduction de l\'activité</strong>'),
         widget=forms.DateInput(attrs={
             'type': 'date',
@@ -42,6 +42,7 @@ class AutoEntrepreneurForm(forms.Form):
 
     # 03 — Domaine
     domaine = forms.CharField(
+        required=False,
         label=mark_safe('<strong>03 — Domaine</strong>'),
         max_length=100,
         widget=forms.TextInput(attrs={
@@ -53,9 +54,10 @@ class AutoEntrepreneurForm(forms.Form):
 
     # 04 — Sous-domaine
     sous_domaine = forms.CharField(
+        required=False,
         label=mark_safe('<strong>04 — Sous-domaine</strong>'),
         max_length=100,
-        required=False,
+       
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Ex: Développement web, Marketing digital...'
@@ -76,6 +78,7 @@ class AutoEntrepreneurForm(forms.Form):
     )
 
     # 06 — Description succincte
+    required=False,
     description = forms.CharField(
         label=mark_safe('<strong>06 — Description succincte</strong>'),
         widget=forms.Textarea(attrs={
@@ -89,6 +92,7 @@ class AutoEntrepreneurForm(forms.Form):
 
     # 07 — Objectifs
     objectifs = forms.CharField(
+        required=False,
         label=mark_safe('<strong>07 — Objectifs (tâches et missions)</strong>'),
         widget=forms.Textarea(attrs={
             'class': 'form-control',
@@ -100,6 +104,7 @@ class AutoEntrepreneurForm(forms.Form):
 
     # 08 — Compétences requises
     competences = forms.CharField(
+        required=False,
         label=mark_safe('<strong>08 — Compétences requises</strong>'),
         widget=forms.Textarea(attrs={
             'class': 'form-control',
@@ -128,6 +133,7 @@ class AutoEntrepreneurForm(forms.Form):
     ]
 
     secteurs = forms.MultipleChoiceField(
+        required=False,
         label=mark_safe('<strong>09 — Secteurs concernés</strong>'),
         choices=SECTEURS,
         widget=forms.CheckboxSelectMultiple(attrs={
@@ -149,6 +155,7 @@ class AutoEntrepreneurForm(forms.Form):
     ]
 
     publics_cibles = forms.MultipleChoiceField(
+        required=False,
         label=mark_safe('<strong>10 — Publics cibles</strong>'),
         choices=PUBLICS,
         widget=forms.CheckboxSelectMultiple(attrs={
@@ -170,6 +177,7 @@ class AutoEntrepreneurForm(forms.Form):
     ]
 
     mode_prestation = forms.ChoiceField(
+        required=False,
         label=mark_safe('<strong>11 — Mode de prestation de service</strong>'),
         choices=MODE_PRESTATION,
         widget=forms.Select(attrs={
@@ -180,13 +188,14 @@ class AutoEntrepreneurForm(forms.Form):
 
     # 12 — Ressources et outils
     ressources = forms.CharField(
+        required=False,
         label=mark_safe('<strong>12 — Ressources et outils nécessaires</strong>'),
         widget=forms.Textarea(attrs={
             'class': 'form-control',
             'rows': 4,
             'placeholder': 'Ex: Ordinateur, logiciels, véhicule, local...'
         }),
-        required=False,
+        
         help_text="Équipements nécessaires pour exercer"
     )
 
@@ -211,6 +220,7 @@ class AutoEntrepreneurForm(forms.Form):
     ]
 
     capacite_handicap = forms.ChoiceField(
+        required=False,
         label=mark_safe('<strong>14 — Capacité des personnes en situation de handicap</strong>'),
         choices=HANDICAP,
         widget=forms.RadioSelect(attrs={
@@ -232,52 +242,52 @@ class AutoEntrepreneurForm(forms.Form):
     )
 
     
-    def clean_date_introduction(self):
-        """Validation de la date"""
-        date = self.cleaned_data.get('date_introduction')
+    # def clean_date_introduction(self):
+    #     """Validation de la date"""
+    #     date = self.cleaned_data.get('date_introduction')
         
-        # Empêcher les dates futures (optionnel)
-        # from datetime import date
-        # if date and date > date.today():
-        #     raise forms.ValidationError("La date ne peut pas être dans le futur")
+    #     # Empêcher les dates futures (optionnel)
+    #     # from datetime import date
+    #     # if date and date > date.today():
+    #     #     raise forms.ValidationError("La date ne peut pas être dans le futur")
         
-        return date
+    #     return date
 
-    def clean(self):
-        """Validation globale du formulaire"""
-        cleaned_data = super().clean()
+    # def clean(self):
+    #     """Validation globale du formulaire"""
+    #     cleaned_data = super().clean()
         
-        # Exemple de validation croisée
-        domaine = cleaned_data.get('domaine')
-        sous_domaine = cleaned_data.get('sous_domaine')
+    #     # Exemple de validation croisée
+    #     domaine = cleaned_data.get('domaine')
+    #     sous_domaine = cleaned_data.get('sous_domaine')
         
-        if sous_domaine and domaine and sous_domaine.lower() == domaine.lower():
-            self.add_error(
-                'sous_domaine',
-                "Le sous-domaine doit être différent du domaine principal"
-            )
+    #     if sous_domaine and domaine and sous_domaine.lower() == domaine.lower():
+    #         self.add_error(
+    #             'sous_domaine',
+    #             "Le sous-domaine doit être différent du domaine principal"
+    #         )
         
-        # Vérifier qu'au moins un secteur est sélectionné
-        secteurs = cleaned_data.get('secteurs')
-        if not secteurs or len(secteurs) == 0:
-            self.add_error(
-                'secteurs',
-                "Veuillez sélectionner au moins un secteur"
-            )
+    #     # Vérifier qu'au moins un secteur est sélectionné
+    #     secteurs = cleaned_data.get('secteurs')
+    #     if not secteurs or len(secteurs) == 0:
+    #         self.add_error(
+    #             'secteurs',
+    #             "Veuillez sélectionner au moins un secteur"
+    #         )
         
-        return cleaned_data
+    #     return cleaned_data
 
-    # Configuration des erreurs
-    error_messages = {
+    # # Configuration des erreurs
+    # error_messages = {
         
-        'invalid': 'Veuillez saisir une valeur valide',
-        'max_length': 'La valeur est trop longue (maximum %(limit_value)d caractères)',
-    }
+    #     'invalid': 'Veuillez saisir une valeur valide',
+    #     'max_length': 'La valeur est trop longue (maximum %(limit_value)d caractères)',
+    # }
 
     def __init__(self, *args, **kwargs):
         """Initialisation avec personnalisations supplémentaires"""
         super().__init__(*args, **kwargs)
+        # Personnalisation des labels ou des widgets si nécessaire
         
-        # Personnalisation spécifique
-        self.fields['description'].widget.attrs['data-counter'] = '500'
-        self.fields['date_introduction'].widget.attrs['onchange'] = 'validateDate(this)'
+        
+       

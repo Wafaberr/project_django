@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'formulaire',
     'utilisateurs',
+    'import_export',
 ]
 
 MIDDLEWARE = [

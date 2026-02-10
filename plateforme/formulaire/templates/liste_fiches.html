@@ -8,10 +8,7 @@
     <section>
     <h1>fiches</h1>
     
-    <!-- Bouton pour créer une nouvelle fiche -->
-    <a href="{% url 'formulaire:formulaire' %}" class="btn btn-primary mb-3">
-        Créer un nouveau formulaire
-    </a>
+    
 
     <table class="fiches-table table table-striped">
         <thead class="thead-dark" style="background-color: #343a40; color: white;">
@@ -30,7 +27,7 @@
                     <td>{{ fiche.sous_domaine }}</td>
                     <td>
                         <!-- Bouton d'édition pour chaque ligne -->
-                        <a href="{% url 'formulaire:formulaire'  %}" 
+                        <a href="{% url 'formulaire:editer_fiche' id=fiche.id %}" 
                            class="btn btn-sm btn-warning">
                             ✏️ Éditer
                         </a>

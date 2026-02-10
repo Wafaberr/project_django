@@ -1,0 +1,365 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    {% if edition_mode %}Modifier fiche{% else %}Nouvelle fiche{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">
+        {% if edition_mode %}
+            Modifier la fiche : {{ fiche.nom_activite }}
+        {% else %}
+            Créer une nouvelle fiche
+        {% endif %}
+    </h1>
+    
+    {% if messages %}
+    <div class="messages mb-4">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    {% if form.errors %}
+    <div class="alert alert-danger mb-4">
+        <h5>Erreurs dans le formulaire :</h5>
+        <ul class="mb-0">
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <li><strong>{{ field|title }}:</strong> {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    
+    <form method="POST" action="">
+        {% csrf_token %}
+        
+        <!-- Champ code activité -->
+        <div class="mb-3">
+            <label for="id_code_activite" class="form-label fw-bold">01 — Code d'activité</label>
+            <input type="text" 
+                   name="code_activite" 
+                   id="id_code_activite" 
+                   class="form-control {% if form.code_activite.errors %}is-invalid{% endif %}"
+                   value="{{ form.code_activite.value|default:'' }}"
+                   maxlength="6"
+                   placeholder="Ex: 010101"
+                   required>
+            <div class="form-text">Code unique à 6 chiffres</div>
+            {% if form.code_activite.errors %}
+            <div class="invalid-feedback">
+                {{ form.code_activite.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Champ date d'introduction -->
+        <div class="mb-3">
+            <label for="id_date_introduction" class="form-label fw-bold">02 — Date d'introduction</label>
+            <input type="date" 
+                   name="date_introduction" 
+                   id="id_date_introduction" 
+                   class="form-control {% if form.date_introduction.errors %}is-invalid{% endif %}"
+                   value="{% if form.date_introduction.value %}{{ form.date_introduction.value|date:'Y-m-d' }}{% endif %}">
+            <div class="form-text">Date à laquelle vous avez commencé cette activité</div>
+            {% if form.date_introduction.errors %}
+            <div class="invalid-feedback">
+                {{ form.date_introduction.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Champ domaine -->
+        <div class="mb-3">
+            <label for="id_domaine" class="form-label fw-bold">03 — Domaine</label>
+            <input type="text" 
+                   name="domaine" 
+                   id="id_domaine" 
+                   class="form-control {% if form.domaine.errors %}is-invalid{% endif %}"
+                   value="{{ form.domaine.value|default:'' }}"
+                   placeholder="Ex: Informatique, Conseil, Formation..."
+                   required>
+            <div class="form-text">Domaine principal d'activité</div>
+            {% if form.domaine.errors %}
+            <div class="invalid-feedback">
+                {{ form.domaine.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Champ sous-domaine -->
+        <div class="mb-3">
+            <label for="id_sous_domaine" class="form-label fw-bold">04 — Sous-domaine</label>
+            <input type="text" 
+                   name="sous_domaine" 
+                   id="id_sous_domaine" 
+                   class="form-control {% if form.sous_domaine.errors %}is-invalid{% endif %}"
+                   value="{{ form.sous_domaine.value|default:'' }}"
+                   placeholder="Ex: Développement web, Marketing digital...">
+            <div class="form-text">Spécialisation au sein du domaine</div>
+            {% if form.sous_domaine.errors %}
+            <div class="invalid-feedback">
+                {{ form.sous_domaine.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Champ nom activité -->
+        <div class="mb-3">
+            <label for="id_nom_activite" class="form-label fw-bold">05 — Nom de l'activité</label>
+            <input type="text" 
+                   name="nom_activite" 
+                   id="id_nom_activite" 
+                   class="form-control {% if form.nom_activite.errors %}is-invalid{% endif %}"
+                   value="{{ form.nom_activite.value|default:'' }}"
+                   placeholder="Ex: Création de sites internet">
+            <div class="form-text">Nom commercial de votre activité</div>
+            {% if form.nom_activite.errors %}
+            <div class="invalid-feedback">
+                {{ form.nom_activite.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Champ description -->
+        <div class="mb-3">
+            <label for="id_description" class="form-label fw-bold">06 — Description</label>
+            <textarea name="description" 
+                      id="id_description" 
+                      class="form-control {% if form.description.errors %}is-invalid{% endif %}" 
+                      rows="4"
+                      maxlength="500">{{ form.description.value|default:'' }}</textarea>
+            <div class="form-text">Maximum 500 caractères</div>
+            {% if form.description.errors %}
+            <div class="invalid-feedback">
+                {{ form.description.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Champ objectifs -->
+        <div class="mb-3">
+            <label for="id_objectifs" class="form-label fw-bold">07 — Objectifs</label>
+            <textarea name="objectifs" 
+                      id="id_objectifs" 
+                      class="form-control {% if form.objectifs.errors %}is-invalid{% endif %}" 
+                      rows="4">{{ form.objectifs.value|default:'' }}</textarea>
+            <div class="form-text">Détaillez les tâches que vous réalisez</div>
+            {% if form.objectifs.errors %}
+            <div class="invalid-feedback">
+                {{ form.objectifs.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Champ compétences -->
+        <div class="mb-3">
+            <label for="id_competences" class="form-label fw-bold">08 — Compétences</label>
+            <textarea name="competences" 
+                      id="id_competences" 
+                      class="form-control {% if form.competences.errors %}is-invalid{% endif %}" 
+                      rows="4">{{ form.competences.value|default:'' }}</textarea>
+            <div class="form-text">Compétences techniques et relationnelles nécessaires</div>
+            {% if form.competences.errors %}
+            <div class="invalid-feedback">
+                {{ form.competences.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Champ secteurs (checkboxes) -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">09 — Secteurs concernés</label>
+            <div class="border p-3 rounded bg-light">
+                {% for value, label in form.fields.secteurs.choices %}
+                <div class="form-check">
+                    <input class="form-check-input" 
+                           type="checkbox" 
+                           name="secteurs" 
+                           value="{{ value }}"
+                           id="secteur_{{ forloop.counter }}"
+                           {% if value in form.secteurs.value %}checked{% endif %}>
+                    <label class="form-check-label" for="secteur_{{ forloop.counter }}">
+                        {{ label }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="form-text">Cochez tous les secteurs concernés</div>
+            {% if form.secteurs.errors %}
+            <div class="invalid-feedback d-block">
+                {{ form.secteurs.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Champ publics cibles (checkboxes) -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">10 — Publics cibles</label>
+            <div class="border p-3 rounded bg-light">
+                {% for value, label in form.fields.publics_cibles.choices %}
+                <div class="form-check">
+                    <input class="form-check-input" 
+                           type="checkbox" 
+                           name="publics_cibles" 
+                           value="{{ value }}"
+                           id="public_{{ forloop.counter }}"
+                           {% if value in form.publics_cibles.value %}checked{% endif %}>
+                    <label class="form-check-label" for="public_{{ forloop.counter }}">
+                        {{ label }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="form-text">Sélectionnez vos clients types</div>
+            {% if form.publics_cibles.errors %}
+            <div class="invalid-feedback d-block">
+                {{ form.publics_cibles.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Champ mode prestation (select) -->
+        <div class="mb-3">
+            <label for="id_mode_prestation" class="form-label fw-bold">11 — Mode de prestation</label>
+            <select name="mode_prestation" 
+                    id="id_mode_prestation" 
+                    class="form-select {% if form.mode_prestation.errors %}is-invalid{% endif %}">
+                <option value="">--- Sélectionnez ---</option>
+                {% for value, label in form.fields.mode_prestation.choices %}
+                <option value="{{ value }}" 
+                        {% if form.mode_prestation.value == value %}selected{% endif %}>
+                    {{ label }}
+                </option>
+                {% endfor %}
+            </select>
+            <div class="form-text">Comment fournissez-vous vos services ?</div>
+            {% if form.mode_prestation.errors %}
+            <div class="invalid-feedback">
+                {{ form.mode_prestation.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Champ ressources -->
+        <div class="mb-3">
+            <label for="id_ressources" class="form-label fw-bold">12 — Ressources</label>
+            <textarea name="ressources" 
+                      id="id_ressources" 
+                      class="form-control {% if form.ressources.errors %}is-invalid{% endif %}" 
+                      rows="4">{{ form.ressources.value|default:'' }}</textarea>
+            <div class="form-text">Équipements nécessaires pour exercer</div>
+            {% if form.ressources.errors %}
+            <div class="invalid-feedback">
+                {{ form.ressources.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Champ activités similaires -->
+        <div class="mb-3">
+            <label for="id_activites_similaires" class="form-label fw-bold">13 — Activités similaires</label>
+            <textarea name="activites_similaires" 
+                      id="id_activites_similaires" 
+                      class="form-control {% if form.activites_similaires.errors %}is-invalid{% endif %}" 
+                      rows="3">{{ form.activites_similaires.value|default:'' }}</textarea>
+            <div class="form-text">Services connexes possibles</div>
+            {% if form.activites_similaires.errors %}
+            <div class="invalid-feedback">
+                {{ form.activites_similaires.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Champ capacité handicap (radio buttons) -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">14 — Capacité handicap</label>
+            <div class="border p-3 rounded bg-light">
+                {% for value, label in form.fields.capacite_handicap.choices %}
+                <div class="form-check">
+                    <input class="form-check-input" 
+                           type="radio" 
+                           name="capacite_handicap" 
+                           value="{{ value }}"
+                           id="handicap_{{ forloop.counter }}"
+                           {% if form.capacite_handicap.value == value %}checked{% endif %}
+                           required>
+                    <label class="form-check-label" for="handicap_{{ forloop.counter }}">
+                        {{ label }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="form-text">Accessibilité de votre activité</div>
+            {% if form.capacite_handicap.errors %}
+            <div class="invalid-feedback d-block">
+                {{ form.capacite_handicap.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Champ remarques -->
+        <div class="mb-4">
+            <label for="id_remarques" class="form-label fw-bold">15 — Remarques</label>
+            <textarea name="remarques" 
+                      id="id_remarques" 
+                      class="form-control {% if form.remarques.errors %}is-invalid{% endif %}" 
+                      rows="3">{{ form.remarques.value|default:'' }}</textarea>
+            <div class="form-text">Toute information utile non couverte précédemment</div>
+            {% if form.remarques.errors %}
+            <div class="invalid-feedback">
+                {{ form.remarques.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Boutons -->
+        <div class="d-flex gap-2 mb-5">
+            <button formnovalidate type="submit" class="btn btn-primary">
+                {% if edition_mode %}
+                    Enregistrer les modifications
+                
+                {% endif %}
+            </button>
+            <a href="{% url 'formulaire:liste_fiches' %}" class="btn btn-secondary">Annuler</a>
+            
+           
+        </div>
+    </form>
+</div>
+
+<style>
+.form-check {
+    margin-bottom: 0.5rem;
+}
+
+.border {
+    border: 1px solid #dee2e6 !important;
+}
+
+.rounded {
+    border-radius: 0.375rem !important;
+}
+
+.bg-light {
+    background-color: #f8f9fa !important;
+}
+
+.invalid-feedback {
+    display: block;
+}
+
+.form-text {
+    margin-top: 0.25rem;
+    font-size: 0.875em;
+    color: #6c757d;
+}
+</style>
+{% endblock %}
