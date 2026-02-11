@@ -1,0 +1,12 @@
+{%extends 'layout.html' %}
+{% block title %}
+    Inscription
+{% endblock %}
+{% block content %}
+    <h2>Inscription</h2>
+    <form method="post" action="{% url 'utilisateurs:registration' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="form-submit">S'inscrire</button>
+    </form>
+{% endblock %}
