@@ -1,0 +1,12 @@
+{%extends 'layout.html' %}
+{% block title %}
+    Connexion
+{% endblock %}
+{% block content %}
+    <h2>Connexion</h2>
+    <form method="post" action="{% url 'utilisateurs:connexion' %}">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" class="form-submit">Se connecter</button>
+    </form>
+{% endblock %}

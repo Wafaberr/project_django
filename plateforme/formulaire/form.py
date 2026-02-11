@@ -78,7 +78,7 @@ class AutoEntrepreneurForm(forms.Form):
     )
 
     # 06 — Description succincte
-    required=False,
+    
     description = forms.CharField(
         label=mark_safe('<strong>06 — Description succincte</strong>'),
         widget=forms.Textarea(attrs={
@@ -87,6 +87,8 @@ class AutoEntrepreneurForm(forms.Form):
             'placeholder': 'Décrivez votre activité en quelques lignes...',
             'maxlength': '500'
         }),
+        required=False,
+
         help_text="Maximum 500 caractères"
     )
 

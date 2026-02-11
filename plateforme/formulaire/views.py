@@ -73,4 +73,20 @@ def modifier_fiche(request, id):
 
 def liste_fiches(request):
     fiches = AutoEntrepreneur.objects.all()  # Récupérer toutes les fiches
-    return render(request, 'liste_fiches.html', {'fiches': fiches})
+
+    sort_by = request.GET.get('sort', 'code_activite')  # Par défaut tri par code_activite
+    order = request.GET.get('order', 'asc')  # Par défaut ascendant
+    
+    # Construire le champ de tri
+    if order == 'desc':
+        sort_by = f'-{sort_by}'  # Ajoute le signe - pour descendant
+    
+    # Récupérer et trier les fiches
+    fiches = AutoEntrepreneur.objects.all().order_by(sort_by)
+    
+    # Passer les paramètres actuels au template
+    context = {
+        'fiches': fiches,
+        'current_sort': request.GET.get('sort', 'code_activite'),
+        'current_order': order,}
+    return render(request, 'liste_fiches.html', context)
