@@ -1,40 +1,47 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    Listes fiches
+  Listes fiches
 {% endblock %}
 
 {% block content %}
-    <section>
-    <h1>Listes fiches</h1>
-    
-    
+  <section>
+    <h1>Liste fiches</h1>
 
     <table class="fiches-table table table-striped">
-        <thead class="thead-dark" style="background-color: #343a40; color: white;">
-            <tr>
-                <th>Code activité</th>
-                <th>Domaine</th>
-                <th>Sous-domaine</th>
-                <th>Actions</th>  <!-- Nouvelle colonne pour les actions -->
-            </tr>
-        </thead>
-        <tbody style="background-color: #f8f9fa;">
-            {% for fiche in fiches %}
-                <tr>
-                    <td>{{ fiche.code_activite }}</td>
-                    <td>{{ fiche.domaine }}</td>
-                    <td>{{ fiche.sous_domaine }}</td>
-                    <td>
-                        <!-- Bouton d'édition pour chaque ligne -->
-                        <a href="{% url 'formulaire:editer_fiche' id=fiche.id %}" 
-                           class="btn btn-sm btn-warning">
-                            ✏️ Éditer
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
+      <thead class=" text-center align-middle ">   
+        <tr>
+          <th>
+            Code activité <span class="icon-arrow">&UpArrow;</span>
+          </th>
+          <th>
+            Domaine <span class="icon-arrow">&UpArrow;</span>
+          </th>
+          <th>
+            Sous-domaine <span class="icon-arrow">&UpArrow;</span>
+          </th>
+          <th>
+            Actions 
+          </th> <!-- Nouvelle colonne pour les actions -->
+        </tr>
+      </thead>
+      <tbody style="background-color: #f8f9fa;">
+        {% for fiche in fiches %}
+          <tr>
+            <td>{{ fiche.code_activite }}</td>
+            <td>{{ fiche.domaine }}</td>
+            <td>{{ fiche.sous_domaine }}</td>
+            <td>
+              <!-- Bouton d'édition pour chaque ligne -->
+              <a href="{% url 'formulaire:editer_fiche' id=fiche.id %}" class="btn btn-sm btn-warning">✏️ Éditer</a>
+            </td>
+          </tr>
+        {% endfor %}
+
+      </tbody>
     </table>
-    </section>
+
+    <p class="text-muted small mt-3">
+      Total fiches : {{ fiches|length }}
+  </section>
 {% endblock %}

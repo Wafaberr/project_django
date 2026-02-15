@@ -1,0 +1,50 @@
+
+/* layout style */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fcfcfc;
+}
+.logo_section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+thead th span.icon-arrow {
+    display: inline-block;
+    width: 1.3em;
+    height:1.3rem;
+    border: 1.4px solid transparent ;
+    
+    text-align: center  ;
+    border-radius: 50%;
+    margin-left: .5rem;
+
+    transform: .9s ease-in-out;
+  
+}
+thead th.active span.icon-arrow {
+    border: 1.4px solid #033bd6;
+}
+thead th.asc span.icon-arrow {
+    transform: rotate(180deg);
+}
+thead th.active  {
+   color: #033bd6;
+}

@@ -2,9 +2,15 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from .form import AutoEntrepreneurForm
 from .models import AutoEntrepreneur
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+def home(request):
+    
+    return render(request, 'home.html')
 
+
+@login_required (login_url='/utilisateurs/connexion/')  # Redirige vers la page de connexion si l'utilisateur n'est pas authentifié
 # formulaire/views.py
 def modifier_fiche(request, id):
     fiche = get_object_or_404(AutoEntrepreneur, id=id)

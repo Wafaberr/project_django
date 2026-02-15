@@ -1,12 +1,27 @@
-{%extends 'layout.html' %}
+{% extends 'layout.html' %}
 {% block title %}
-    Connexion
+  Connexion
 {% endblock %}
 {% block content %}
-    <h2>Connexion</h2>
-    <form method="post" action="{% url 'utilisateurs:connexion' %}">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit" class="form-submit">Se connecter</button>
-    </form>
+  <h2>Connexion</h2>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h3 class="card-title mb-4 text-center">Connectez-vous à votre compte</h3>
+
+            <form method="post" action="{% url 'utilisateurs:connexion' %}">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit" class="form-submit">Se connecter</button>
+              <p class="mt-3">
+                Pas encore de compte ? <a href="{% url 'utilisateurs:registration' %}">Inscrivez-vous ici</a>.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Accueil
+{% endblock %}
+
+{% block content %}
+    <div class="jumbotron text-center">
+        <h1 class="display-4">Bienvenue sur la plateforme de gestion des fiches d'activité !</h1>
+        <p class="lead">Gérez facilement vos fiches d'activité en tant qu'auto-entrepreneur.</p>
+        <hr class="my-4">
+        <p>Pour commencer, vous pouvez consulter la liste de vos fiches d'activité ou en créer une nouvelle.</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'formulaire:liste_fiches' %}" role="button">Voir mes fiches</a>
+    </div>
+{% endblock %}
