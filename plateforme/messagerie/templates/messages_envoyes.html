@@ -1,0 +1,62 @@
+
+
+{% extends 'base_messagerie.html' %}
+
+{% block messagerie_content %}
+<h2>Messages envoyés</h2>
+
+{% if messages_envoyes %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>À</th>
+                    <th>Sujet</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for message in messages_envoyes %}
+                    <tr>
+                        <td>{{ message.destinataire.username }}</td>
+                        <td>
+                            <a href="{% url 'messagerie:detail' message.id %}">
+                                {{ message.sujet }}
+                            </a>
+                        </td>
+                        <td>{{ message.date_envoi|date:"d/m/Y H:i" }}</td>
+                        <td>
+                            {% if message.lu %}
+                                <span class="badge bg-success">Lu</span>
+                            {% else %}
+                                <span class="badge bg-warning">Non lu</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'messagerie:detail' message.id %}" class="btn btn-sm btn-info">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="{% url 'messagerie:supprimer' message.id %}" 
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('Supprimer ce message ?')">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">Aucun message envoyé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        Vous n'avez envoyé aucun message.
+        <a href="{% url 'messagerie:envoyer' %}" class="alert-link">Envoyer un message</a>
+    </div>
+{% endif %}
+{% endblock %}

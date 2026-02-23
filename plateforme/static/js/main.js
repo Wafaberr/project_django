@@ -72,3 +72,17 @@ function sortTable(column, sort_asc) {
         console.error('Erreur dans sortTable:', error);
     }
 }
+
+const searchInput = document.querySelector('.input-group input');
+
+searchInput.addEventListener('input',searcheTable);
+
+function searcheTable() {
+    table_rows.forEach((row, i) => {
+        let rowText = row.textContent.toLowerCase(),
+            searchText = searchInput.value;
+        
+            rowText.indexOf(searchText) > -1 ? row.style.display = '' : row.style.display = 'none';
+        
+    });
+}

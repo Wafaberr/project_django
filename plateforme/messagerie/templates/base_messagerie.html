@@ -1,0 +1,65 @@
+<!-- templates/base_messagerie.html -->
+
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block title %}Messagerie{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    <div class="messages mb-4">
+        {% for message in messages %}
+        {% if message.tags == 'delete' %}
+        <div class="alert alert-danger alert-dismissible fade show">
+            {{ message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% else %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    {% if form.errors %}
+    <div class="alert alert-danger mb-4">
+        <h5>Erreurs d'envoi :</h5>
+        <ul class="mb-0">
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <li><strong>{{ field|title }}:</strong> {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3 " style="margin-top: 60px;">
+            <div class="list-group mb-4">
+                <a href="{% url 'messagerie:envoyer' %}" class="list-group-item list-group-item-action ">
+                    <i class="bi bi-pencil-square"></i> Nouveau message
+                </a>
+                <a href="{% url 'messagerie:reception' %}" class="list-group-item list-group-item-action">
+                    <i class="bi bi-inbox"></i> Boîte de réception
+                    {% if non_lus %}
+                        <span class="badge bg-primary rounded-pill">{{ non_lus }}</span>
+                    {% endif %}
+                </a>
+                <a href="{% url 'messagerie:envoyes' %}" class="list-group-item list-group-item-action">
+                    <i class="bi bi-send"></i> Messages envoyés
+                </a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            {% block messagerie_content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

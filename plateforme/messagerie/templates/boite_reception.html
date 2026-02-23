@@ -1,0 +1,60 @@
+<!-- templates/messagerie/boite_reception.html -->
+
+{% extends 'base_messagerie.html' %}
+
+{% block messagerie_content %}
+<h2>Boîte de réception</h2>
+
+{% if messages_recus %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Statut</th>
+                    <th>De</th>
+                    <th>Sujet</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for message in messages_recus %}
+                    <tr class="{% if not message.lu %}table-primary{% endif %}">
+                        <td>
+                            {% if not message.lu %}
+                                <span class="badge bg-primary">Nouveau</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Lu</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ message.expediteur.username }}</td>
+                        <td>
+                            <a href="{% url 'messagerie:detail' message.id %}">
+                                {{ message.sujet }}
+                            </a>
+                        </td>
+                        <td>{{ message.date_envoi|date:"d/m/Y H:i" }}</td>
+                        <td>
+                            <a href="{% url 'messagerie:detail' message.id %}" class="btn btn-sm btn-info">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="{% url 'messagerie:repondre' message.id %}" class="btn btn-sm btn-success">
+                                <i class="bi bi-reply"></i>
+                            </a>
+                            <a href="{% url 'messagerie:supprimer' message.id %}" 
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('Supprimer ce message ?')">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        Aucun message dans votre boîte de réception.
+    </div>
+{% endif %}
+{% endblock %}

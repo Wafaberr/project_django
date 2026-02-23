@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -9,120 +10,102 @@
         Django App
       {% endblock %}
     </title>
-    
+
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" />
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    
+
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{% static 'images/logo1.png' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo1.png' %}" />
   </head>
-  <body>
+
+  <body class="d-flex flex-column min-vh-100">
     <!-- Header avec logo et recherche -->
-    <header class="bg-light border-bottom">
+    <header class="border-bottom" style="background-color: #7db382bd; ">
       <div class="container">
-        <div class="row align-items-center py-3">
+        <div class="d-flex flex-wrap align-items-center justify-content-between py-2">
           <!-- Logo -->
-          <div class="col-md-3 col-sm-4">
-            <div class="logo">
-              <a href="{% url 'formulaire:home' %}" class="text-decoration-none text-primary">
-                <i class="bi bi-home me-2"></i>
-              </a>
-            </div>
+          <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+            <a href="{% url 'formulaire:home' %}" class="text-decoration-none text-primary"><img src="{% static 'images/logo1.png' %}" class="img-fluid" alt="Logo" /></a>
           </div>
-          
-          <!-- Recherche -->
-          <div class="col-md-6 col-sm-8">
+
+          <!-- Recherche - prend toute la largeur sur mobile -->
+          <div class="col-10 col-sm-6 col-md-5 col-lg-4 mt-3 mt-sm-0">
             <form class="d-flex" role="search">
               <div class="input-group">
-                <input type="text" 
-                       class="form-control" 
-                       placeholder="Rechercher..." 
-                       aria-label="Rechercher">
-                <button class="btn btn-outline-primary" type="submit">
-                  <i class="bi bi-search"></i>
-                </button>
+                <input type="text" class="form-control" placeholder="Rechercher..." aria-label="Rechercher" />
+                <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
               </div>
             </form>
           </div>
-          
-          <!-- Menu utilisateur (optionnel) -->
-          <div class="col-md-3 text-end d-none d-md-block">
-            <div class="dropdown">
-              <button class="btn btn-outline-secondary dropdown-toggle" 
-                      type="button" 
-                      data-bs-toggle="dropdown" 
-                      aria-expanded="false">
-                <i class="bi bi-person-circle me-2"></i>Mon compte
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{% url 'formulaire:home' %}"><i class="bi bi-house me-2"></i>Accueil</a></li>
-                <li><a class="dropdown-item" href="{% url 'formulaire:liste_fiches' %}"><i class="bi bi-file-text me-2"></i>Mes fiches</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><form method="post" action="{% url 'utilisateurs:deconnexion' %}" class="dropdown-item text-danger">
-                  {% csrf_token %}
-                  <button type="submit" class="btn btn-link p-0 text-danger">
-                    <i class="bi bi-box-arrow-right me-2"></i>Déconnexion
+
+          {% if user.is_authenticated %}
+            <div class="col-12 col-lg-4 mt-3 mt-lg-0">
+              <div class="d-flex justify-content-end align-items-center gap-2 flex-wrap">
+                <!-- Menu compte -->
+                <div class="dropdown">
+                  <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-person-circle me-1"></i>
+                    <span class="d-none d-md-inline">Mon compte</span>
                   </button>
-                </form></li>
-              </ul>
+
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <a class="dropdown-item" href="{% url 'formulaire:home' %}">Accueil</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="{% url 'formulaire:liste_fiches' %}">Mes fiches</a>
+                    </li>
+                    <li>
+                      <hr class="dropdown-divider" />
+                    </li>
+                    <li class="dropdown-item text-muted small">{{ user.username }}</li>
+                    <li>
+                      <form method="post" action="{% url 'utilisateurs:deconnexion' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="dropdown-item text-danger">Déconnexion</button>
+                      </form>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Messages -->
+                <a href="{% url 'messagerie:reception' %}" class="btn btn-outline-secondary position-relative d-inline-flex align-items-center">
+                  <i class="bi bi-envelope"></i>
+                  <span class="d-none d-md-inline ms-1">Messages</span>
+                  {% if non_lus %}
+                    <span class="badge bg-primary rounded-pill ms-1">{{ non_lus }}</span>
+                  {% endif %}
+                </a>
+              </div>
             </div>
-          </div>
+          {% endif %}
         </div>
+        
       </div>
     </header>
-
-    <!-- Navigation principale (optionnelle) -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-      <div class="container">
-        
-        
-        <div class="collapse navbar-collapse" id="mainNavbar">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a class="nav-link active" href="{% url 'formulaire:home' %}">
-                <i class="bi bi-house-door me-1"></i>Accueil
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'formulaire:liste_fiches' %}">
-                <i class="bi bi-file-text me-1"></i>Fiches
-              </a>
-            </li>
-            
-           
-            <li class="nav-item">
-              <a class="nav-link" href="https://anae.dz/#a_propos" target="_blank">
-                <i class="bi bi-question-circle me-1"></i>Aide
-              </a>
-            </li>
-          </ul>
-          
-          <!-- Notification (optionnelle) -->
-          <div class="navbar-text text-light d-none d-lg-block">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-danger rounded-pill">3</span>
-          </div>
-        </div>
-      </div>
-    </nav> 
 
     <!-- Contenu principal -->
     <main class="py-4">
       <div class="container">
-        
-        
         {% block breadcrumb %}
           <!-- Fil d'Ariane optionnel -->
+           <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'formulaire:home' %}">Accueil</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'formulaire:liste_fiches' %}">Mes fiches</a></li>
+            
+          </ol>
+    </nav>
         {% endblock %}
-        
+
         {% block content %}
-        <!-- Le contenu des pages enfants ira ici -->
+          <!-- Le contenu des pages enfants ira ici -->
         {% endblock %}
       </div>
     </main>
@@ -133,40 +116,45 @@
         <div class="row">
           <div class="col-md-4">
             <h5>À propos</h5>
-            <p class="text-muted small">
-              Plateforme de gestion des fiches d'activité pour auto-entrepreneurs.
-              Simplifiez votre gestion administrative.
-            </p>
+            <p class="text-muted small">Plateforme de gestion des fiches d'activité pour auto-entrepreneurs. Simplifiez votre gestion administrative.</p>
           </div>
           <div class="col-md-4">
             <h5>Liens utiles</h5>
             <ul class="list-unstyled">
-              <li><a href="#" class="text-decoration-none text-muted">Conditions d'utilisation</a></li>
-              <li><a href="#" class="text-decoration-none text-muted">Politique de confidentialité</a></li>
-              <li><a href="#" class="text-decoration-none text-muted">Support technique</a></li>
+              <li>
+                <a href="#" class="text-decoration-none text-muted">Conditions d'utilisation</a>
+              </li>
+              <li>
+                <a href="#" class="text-decoration-none text-muted">Politique de confidentialité</a>
+              </li>
+              <li>
+                <a href="#" class="text-decoration-none text-muted">Support technique</a>
+              </li>
             </ul>
           </div>
           <div class="col-md-4">
             <h5>Contact</h5>
             <ul class="list-unstyled">
-              <li><i class="bi bi-envelope me-2"></i>contact@example.com</li>
-              <li><i class="bi bi-telephone me-2"></i>+33 1 23 45 67 89</li>
+              <li>
+                <i class="bi bi-envelope me-2"></i>contact@anae.dz
+              </li>
+              <li>
+                <i class="bi bi-telephone me-2"></i>+213 23 50 50 38
+              </li>
             </ul>
           </div>
         </div>
-        <hr>
+        <hr />
         <div class="text-center text-muted small">
-          &copy; {% now "Y" %} Django App. Tous droits réservés.
+          &copy;{% now 'Y' %}Tous droits réservés.
         </div>
       </div>
     </footer>
 
     <!-- Bootstrap JS Bundle avec Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    
-   <script src="{% static 'js/main.js' %}"></script>
+
+    <script src="{% static 'js/main.js' %}"></script>
   </body>
   <!-- Custom JS -->
-   
 </html>

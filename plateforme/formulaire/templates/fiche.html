@@ -7,36 +7,11 @@
 {% block content %}
 <div class="container mt-4">
     <h1 class="mb-4">
-        {% if edition_mode %}
             Modifier la fiche : {{ fiche.id }}
-        {% else %}
-            Créer une nouvelle fiche
-        {% endif %}
+        
     </h1>
     
-    {% if messages %}
-    <div class="messages mb-4">
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
     
-    {% if form.errors %}
-    <div class="alert alert-danger mb-4">
-        <h5>Erreurs dans le formulaire :</h5>
-        <ul class="mb-0">
-            {% for field, errors in form.errors.items %}
-                {% for error in errors %}
-                    <li><strong>{{ field|title }}:</strong> {{ error }}</li>
-                {% endfor %}
-            {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
     
     <form method="POST" action="">
         {% csrf_token %}

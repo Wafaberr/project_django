@@ -27,6 +27,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Déconnexion quand le navigateur est fermé
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Durée maximale de session (30 minutes)
+SESSION_COOKIE_AGE = 1800  
+
+# Renouvelle la session à chaque requête
+SESSION_SAVE_EVERY_REQUEST = True
+
+
+LOGIN_URL = 'utilisateurs:connexion'
+LOGIN_REDIRECT_URL = 'formulaire:home'
+LOGOUT_REDIRECT_URL = 'utilisateurs:connexion'
+
+
 
 # Application definition
 
@@ -40,6 +55,7 @@ INSTALLED_APPS = [
     'formulaire',
     'utilisateurs',
     'import_export',
+    'messagerie',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +80,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'messagerie.context_processors.messages_non_lus',
             ],
         },
     },

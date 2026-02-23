@@ -12,6 +12,9 @@
       <thead class=" text-center align-middle ">   
         <tr>
           <th>
+            Id <span class="icon-arrow">&UpArrow;</span>
+          </th>
+          <th>
             Code activité <span class="icon-arrow">&UpArrow;</span>
           </th>
           <th>
@@ -22,18 +25,19 @@
           </th>
           <th>
             Actions 
-          </th> <!-- Nouvelle colonne pour les actions -->
+          </th> 
         </tr>
       </thead>
       <tbody style="background-color: #f8f9fa;">
         {% for fiche in fiches %}
           <tr>
+            <td>{{ fiche.id }}</td>
             <td>{{ fiche.code_activite }}</td>
             <td>{{ fiche.domaine }}</td>
             <td>{{ fiche.sous_domaine }}</td>
             <td>
-              <!-- Bouton d'édition pour chaque ligne -->
-              <a href="{% url 'formulaire:editer_fiche' id=fiche.id %}" class="btn btn-sm btn-warning">✏️ Éditer</a>
+              
+              <button type="button" class="btn btn-sm btn-warning" onclick="location.href='{% url 'formulaire:editer_fiche' id=fiche.id %}'">✏️ Éditer</button>
             </td>
           </tr>
         {% endfor %}
@@ -42,6 +46,10 @@
     </table>
 
     <p class="text-muted small mt-3">
-      Total fiches : {{ fiches|length }}
+      {% if fiches|length == 0 %}
+        Aucune fiche trouvée.
+      {% endif %}
+      Total fiches : {{ fiches|length  }}
+    </p>
   </section>
 {% endblock %}

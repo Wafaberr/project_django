@@ -1,0 +1,24 @@
+{% extends 'base_messagerie.html' %}
+
+{% block title %}Répondre à un message{% endblock %}
+
+{% block messagerie_content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Répondre au message de {{ message.emetteur }}</h2>
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Objet : {{ message.objet }}</h5>
+                <p class="card-text">{{ message.contenu }}</p>
+                <small class="text-muted">Envoyé le {{ message.date_envoi|date:"d/m/Y à H:i" }}</small>
+            </div>
+        </div>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Répondre</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('formulaire.urls')),  # Redirigez la racine vers l'application d'accueil
     path('formulaire/', include('formulaire.urls')),
-    path('utilisateurs/', include('utilisateurs.urls')),  # Ajoutez un namespace ici
-]
+    path('messagerie/', include('messagerie.urls')),
+    path('utilisateurs/', include('utilisateurs.urls')),  ]
