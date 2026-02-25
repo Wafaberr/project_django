@@ -24,17 +24,17 @@ class AutoEntrepreneur(models.Model):
 
     # Ajoutez ces champs qui manquent dans votre modèle
     code_activite = models.CharField(
-        max_length=6,
+        max_length=5,
         unique=True,
         validators=[
-            MinLengthValidator(6, "Le code doit contenir au moins 6 caractères"),
+            MinLengthValidator(5, "Le code doit contenir au moins 5 caractères"),
             RegexValidator(
                 regex='^[0-9]+$',
                 message='Utilisez uniquement des chiffres',
                 code='invalid_code'
             )
         ],
-        help_text="Code unique de l'activité (6 chiffres)"
+        help_text="Code unique de l'activité (5 chiffres)"
     )
     
     date_introduction = models.DateField(
@@ -74,8 +74,8 @@ class AutoEntrepreneur(models.Model):
     )
     
     # Gardez les champs existants avec les bons noms
-    domaine = models.CharField(max_length=100)
-    sous_domaine = models.CharField(max_length=100, blank=True, null=True)
+    domaine = models.CharField(max_length=200)
+    sous_domaine = models.CharField(max_length=200, blank=True, null=True)
     description = models.TextField(
         null=True,
         blank=True,

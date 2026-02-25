@@ -57,7 +57,7 @@ def supprimer_message(request, message_id):
     # Seul l'expéditeur ou le destinataire peut supprimer
     if message.expediteur == request.user or message.destinataire == request.user:
         message.delete()
-        messages.success(request, 'Message supprimé!')
+        messages.warning(request, 'Message supprimé!')
     
     return redirect('messagerie:reception')
 

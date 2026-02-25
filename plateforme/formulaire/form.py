@@ -9,10 +9,10 @@ class AutoEntrepreneurForm(forms.Form):
     # 01 — Code d'activité
     code_activite = forms.CharField(
         label=mark_safe('<strong>01 — Code d\'activité</strong>'),
-        max_length=6,
+        max_length=5,
         required=False,
         validators=[
-            MinLengthValidator(6, "Le code doit contenir au moins 6 caractères"),
+            MinLengthValidator(5, "Le code doit contenir au moins 5 caractères"),
             RegexValidator(
                 regex='^[0-9]+$',
                 message='Utilisez uniquement des chiffres',
@@ -21,10 +21,10 @@ class AutoEntrepreneurForm(forms.Form):
         ],
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Ex:010101',
+            
             'title': 'Code unique identifiant votre activité'
         }),
-        help_text="Code unique à 6 caractères"
+       
     )
 
     # 02 — Date d'introduction
@@ -44,7 +44,7 @@ class AutoEntrepreneurForm(forms.Form):
     domaine = forms.CharField(
         required=False,
         label=mark_safe('<strong>03 — Domaine</strong>'),
-        max_length=100,
+        
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Ex: Informatique, Conseil, Formation...'
@@ -56,7 +56,7 @@ class AutoEntrepreneurForm(forms.Form):
     sous_domaine = forms.CharField(
         required=False,
         label=mark_safe('<strong>04 — Sous-domaine</strong>'),
-        max_length=100,
+        
        
         widget=forms.TextInput(attrs={
             'class': 'form-control',

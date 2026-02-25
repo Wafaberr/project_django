@@ -37,7 +37,7 @@
             <td>{{ fiche.sous_domaine }}</td>
             <td>
               
-              <button type="button" class="btn btn-sm btn-warning" onclick="location.href='{% url 'formulaire:editer_fiche' id=fiche.id %}'">✏️ Éditer</button>
+              <a type="button" class="btn btn-sm btn-warning" href='{% url 'formulaire:editer_fiche' id=fiche.id %}'>✏️ Éditer</a>
             </td>
           </tr>
         {% endfor %}

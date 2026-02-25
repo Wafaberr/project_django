@@ -24,10 +24,9 @@
                    id="id_code_activite" 
                    class="form-control {% if form.code_activite.errors %}is-invalid{% endif %}"
                    value="{{ form.code_activite.value|default:'' }}"
-                   maxlength="6"
-                   placeholder="Ex: 010101"
+                   
                    required>
-            <div class="form-text">Code unique à 6 chiffres</div>
+            <div class="form-text">Code unique de l'activité </div>
             {% if form.code_activite.errors %}
             <div class="invalid-feedback">
                 {{ form.code_activite.errors|join:", " }}
