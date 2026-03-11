@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ze&@_n%dxi9zede#kyt0ybuo7gsdfhnypwv1d#rliqv&j-%9dj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['project-django-mgxi.onrender.com']
 
 # Déconnexion quand le navigateur est fermé
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
